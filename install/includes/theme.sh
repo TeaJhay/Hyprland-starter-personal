@@ -3,6 +3,8 @@ theme_files=(
     ".gtkrc-2.0"
     ".icons/default/index.theme"
     ".config/xsettingsd/xsettingsd.conf"
+    
+set $gnome-schema org.gnome.desktop.interface
 
 echo -e "${GREEN}"
 figlet "Theme"
