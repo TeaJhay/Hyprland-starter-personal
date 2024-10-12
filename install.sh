@@ -83,6 +83,11 @@ source install/includes/kvm.sh
 source install/includes/copy.sh
 
 # ----------------------------------------------------- 
+# set Theme preferences
+# ----------------------------------------------------- 
+source install/includes/theme.sh
+
+# ----------------------------------------------------- 
 # Reboot
 # ----------------------------------------------------- 
 source install/includes/reboot.sh
