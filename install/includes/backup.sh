@@ -1,56 +1,36 @@
-backup_files=(
-    ".config/alacritty"
-    ".config/dunst"
-    ".config/hypr"
-    ".config/ml4w"
-    ".config/rofi"
-    ".config/waybar"
-    ".config/wlogout"
-    ".bashrc"
+theme_files=(
+    ".config/gtk-3.0/settings.ini"
+    ".gtkrc-2.0"
+    ".icons/default/index.theme"
+    ".config/xsettingsd/xsettingsd.conf"
 )
 
 echo -e "${GREEN}"
-figlet "Backup"
+figlet "Theme"
 echo -e "${NONE}"
-echo "The script can create a backup of you existing configurations in .config and your .bashrc"
-if gum confirm "Do you want to create a backup now" ;then
+echo "The script can set dark mode setting through gsettings"
 
-    # Create ml4w folder
-    if [ ! -d ~/ml4w ] ;then
-        mkdir ~/ml4w
-    fi
-
-    # Get current timestamp
-    datets=$(date '+%Y%m%d%H%M%S')
+if gum confirm "Do you want to create a backup of theme files now"; then
 
     # Create backup folder
-    if [ ! -d ~/ml4w/archive ] ;then
-        mkdir ~/ml4w/archive
+    if [ ! -d ~/ml4w/backup/themes ]; then
+        mkdir -p ~/ml4w/backup/themes
     fi
 
-    # Create backup folder
-    if [ ! -d ~/ml4w/backup ] ;then
-        mkdir ~/ml4w/backup
-    else
-        mkdir ~/ml4w/archive/$datets
-        cp -r ~/ml4w/backup/. ~/ml4w/archive/$datets/
-    fi
-
-    for df in "${backup_files[@]}"
-    do
-        if [ -d ~/$df ] ;then
-            echo ":: Backup of $df"
-            mkdir -p ~/ml4w/backup/$df
-            cp -r ~/$df ~/ml4w/backup/$df
-        fi
-        if [ -f ~/$df ] && [ ! -L "${df}" ] ;then
-            echo ":: Backup of $df"
-            cp ~/$df ~/ml4w/backup/$df
+    for tf in "${theme_files[@]}"; do
+        if [ -d "$HOME/$tf" ]; then
+            echo "::backup of $tf"
+            cp -r "$HOME/$tf" "$HOME/ml4w/backup/themes/$tf"
         fi
     done
-elif [ $? -eq 130 ]; then
-    echo ":: Installation canceled"
-    exit 130
-else
-    echo ":: Backup skipped"
+
+    echo "Backup done"
+    echo "running commands"
+
+    # Make sure $gnome-schema is defined
+    gsettings set "$gnome-schema" gtk-theme 'Adwaita-dark'
+    gsettings set "$gnome-schema" icon-theme 'Breeze'
+    gsettings set "$gnome-schema" cursor-theme 'Oxygen Zion'
+    
+    echo "Done!"
 fi
