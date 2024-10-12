@@ -26,11 +26,13 @@ if gum confirm "Do you want to create a backup of theme files now"; then
 
     echo "Backup done"
     echo "running commands"
+# Set the GNOME schema
+gnome_schema="org.gnome.desktop.interface"
 
-    # Make sure $gnome-schema is defined
-    gsettings set "$gnome-schema" gtk-theme 'Adwaita-dark'
-    gsettings set "$gnome-schema" icon-theme 'Breeze'
-    gsettings set "$gnome-schema" cursor-theme 'Oxygen Zion'
+# Apply the settings
+gsettings set "$gnome_schema" gtk-theme 'Adwaita-dark'
+gsettings set "$gnome_schema" icon-theme 'Breeze'
+gsettings set "$gnome_schema" cursor-theme 'Oxygen Zion'
     
     echo "Done!"
 fi
